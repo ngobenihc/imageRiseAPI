@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<head>
+    <title>Image processing API - Home</title>
+
+</head>
+
+<body>
+    <div class="topnav">
+        <div class="header">Image Processing API</div>
+        <a href="/">Home Page</a>
+        <a href="/resize?w=400&h=400"> Resized images 400*400</a>
+    </div>
+    <% if ( data.length > 0 ) { %>
+        <div id="image-container">
+            <% data.forEach((img) => { %>
+                <img class='resized-image' src="images/<%= img %>">
+                <% }); %>
+        </div>
+        <% } else { %>
+            <div class='isValue'>
+                <h3>Sorry!</h3>
+                <p>There is no image to display at this moment</p>
+                <p>Provide a url(path) below,
+                </p>
+            </div>
+
+            <% } %>
+                <div class="footer">
+                    © Copyright 2021. All rights reserved.
+                </div>
+</body>
+
+</html>
