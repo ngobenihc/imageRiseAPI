@@ -10,6 +10,10 @@ To install the dependencies for this project, run the following command:
 
 After installing the dependencies, run the follwing command to build typescript into javascript and save them in build folder:
 
+# Example - http://localhost:3000/image?f=ana&x=jpeg&w=100&h=100
+
+#enter one of the following 1. encenadaport&x=jpeg&w=100&h=100, 2 fjordt&x=jpeg&w=100&h=100, 3 icelandwaterfall&x=jpeg&w=100&h=100, 4 palmtunnel&x=jpeg&w=100&h=100, 5 santamonica&x=jpeg&w=100&h=100'
+
 ```
 npm run build
 ```
