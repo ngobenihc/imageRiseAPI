@@ -39,9 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// Image file utilities module
-var imageFile_1 = require("../utilities/imageFile");
-// Path module
+var filesPic_1 = require("../middleware/filesPic");
 var path_1 = __importDefault(require("path"));
 describe('test image file utilities', function () {
     it('checks file exists', function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -50,7 +48,7 @@ describe('test image file utilities', function () {
             switch (_a.label) {
                 case 0:
                     inputFile = path_1.default.join(__dirname, '../../assets/full/encenadaport.jpeg');
-                    return [4 /*yield*/, (0, imageFile_1.checkFileExists)(inputFile)];
+                    return [4 /*yield*/, (0, filesPic_1.checkFileExists)(inputFile)];
                 case 1:
                     fileExists = _a.sent();
                     expect(fileExists).toBe(true);
@@ -64,7 +62,7 @@ describe('test image file utilities', function () {
             switch (_a.label) {
                 case 0:
                     outputDir = path_1.default.join(__dirname, '../../assets/thumbnail/');
-                    return [4 /*yield*/, expectAsync((0, imageFile_1.insistDirectoryExists)(outputDir)).toBeResolved()];
+                    return [4 /*yield*/, expectAsync((0, filesPic_1.insistDirectoryExists)(outputDir)).toBeResolved()];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];
@@ -78,7 +76,7 @@ describe('test image file utilities', function () {
                 case 0:
                     inputFile = path_1.default.join(__dirname, '../../assets/full/encenadaport.jpeg');
                     outputFile = path_1.default.join(__dirname, '../../assets/thumbnail/encenadaport-100w-100h.jpeg');
-                    return [4 /*yield*/, (0, imageFile_1.resizeFile)(inputFile, 100, 100, outputFile)];
+                    return [4 /*yield*/, (0, filesPic_1.resizeFile)(inputFile, 100, 100, outputFile)];
                 case 1:
                     thumbnailFile = _a.sent();
                     expect(thumbnailFile).toEqual(outputFile);

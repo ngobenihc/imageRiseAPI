@@ -39,10 +39,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-//this is the unit test for the main API route
 var supertest_1 = __importDefault(require("supertest"));
-var index_1 = __importDefault(require("../index"));
-var request = (0, supertest_1.default)(index_1.default);
+var server_1 = __importDefault(require("../server/server"));
+var request = (0, supertest_1.default)(server_1.default);
 describe('test image processor', function () {
     it('checks front-end page', function () { return __awaiter(void 0, void 0, void 0, function () {
         var response;
@@ -56,7 +55,6 @@ describe('test image processor', function () {
             }
         });
     }); });
-    // check for missing query parameters
     it('checks for missing query parameters', function () { return __awaiter(void 0, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
@@ -69,7 +67,6 @@ describe('test image processor', function () {
             }
         });
     }); });
-    // check for invalid image dimension parameters
     it('checks for invalid image dimension parameters', function () { return __awaiter(void 0, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
@@ -82,7 +79,6 @@ describe('test image processor', function () {
             }
         });
     }); });
-    // check for unknown image asset; all query parameters provided but filename could not be found in assets
     it('checks for unknown image asset', function () { return __awaiter(void 0, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
@@ -95,7 +91,6 @@ describe('test image processor', function () {
             }
         });
     }); });
-    // happy path - test the image API
     it('gets resized image', function () { return __awaiter(void 0, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
@@ -103,7 +98,6 @@ describe('test image processor', function () {
                 case 0: return [4 /*yield*/, request.get('/image?f=ana&x=jpeg&w=100&h=100')];
                 case 1:
                     response = _a.sent();
-                    //encenadaport&x=jpeg&w=100&h=100
                     expect(response.status).toBe(200);
                     return [2 /*return*/];
             }
@@ -122,4 +116,3 @@ describe('test image processor', function () {
         });
     }); });
 });
-//fjord&x=JPEG&w=1000&h=1000

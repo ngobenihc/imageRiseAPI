@@ -1,11 +1,10 @@
-// Image file utilities module
+
 import {
   checkFileExists,
   insistDirectoryExists,
   resizeFile
-} from '../utilities/imageFile';
+} from '../middleware/filesPic';
 
-// Path module
 import path from 'path';
 
 describe('test image file utilities', () => {

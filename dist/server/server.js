@@ -40,8 +40,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-var index_1 = __importDefault(require("./routes/index"));
-var logger_1 = __importDefault(require("./middleware/logger"));
+var routes_1 = __importDefault(require("../routes/routes"));
+var logger_1 = __importDefault(require("../middleware/logger"));
 var path_1 = __importDefault(require("path"));
 var app = (0, express_1.default)();
 var port = 3000;
@@ -51,7 +51,7 @@ app.get('/', logger_1.default, function (req, res) { return __awaiter(void 0, vo
         return [2 /*return*/];
     });
 }); });
-app.use('/image', logger_1.default, index_1.default);
+app.use('/image', logger_1.default, routes_1.default);
 app.listen(port, function () {
     console.log('Server started at http://localhost:3000/image?f=');
 });

@@ -1,4 +1,4 @@
-//this is the logger middleware
+
 import express from 'express';
 
 const logger = (

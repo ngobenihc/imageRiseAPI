@@ -40,19 +40,62 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-var index_1 = __importDefault(require("./routes/index"));
-var logger_1 = __importDefault(require("./middleware/logger"));
 var path_1 = __importDefault(require("path"));
-var app = (0, express_1.default)();
-var port = 3000;
-app.get('/', logger_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var filesPic_1 = require("../middleware/filesPic");
+var routes = express_1.default.Router();
+routes.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var filename, extension, width, height, w, h, extensionLowercase, assetResourceName, thumbnailDirectory, thumbnailResourceName, assetExists;
     return __generator(this, function (_a) {
-        res.sendFile(path_1.default.join(__dirname, '../public/index.html'));
-        return [2 /*return*/];
+        switch (_a.label) {
+            case 0:
+                filename = req.query.f;
+                extension = req.query.x;
+                width = req.query.w;
+                height = req.query.h;
+                if (!(filename === undefined ||
+                    extension === undefined ||
+                    width === undefined ||
+                    height === undefined)) return [3 /*break*/, 1];
+                // invalid request query parameters
+                res.status(400).send('enter one of the following 1. encenadaport&x=jpeg&w=100&h=100, 2 fjordt&x=jpeg&w=100&h=100, 3 icelandwaterfall&x=jpeg&w=100&h=100, 4 palmtunnel&x=jpeg&w=100&h=100, 5 santamonica&x=jpeg&w=100&h=100, 6 ana&x=jpeg&w=100&h=100');
+                return [3 /*break*/, 4];
+            case 1:
+                w = parseInt(width);
+                h = parseInt(height);
+                if (!(isNaN(w) || isNaN(h))) return [3 /*break*/, 2];
+                res.status(400).send('Invalid input');
+                return [3 /*break*/, 4];
+            case 2:
+                extensionLowercase = extension.toLowerCase();
+                assetResourceName = path_1.default.join(__dirname, '../../assets/full/') +
+                    filename +
+                    '.' +
+                    extensionLowercase;
+                thumbnailDirectory = path_1.default.join(__dirname, '../../assets/thumbnail/');
+                thumbnailResourceName = thumbnailDirectory +
+                    filename +
+                    '-' +
+                    width +
+                    'w-' +
+                    height +
+                    'h.' +
+                    extensionLowercase;
+                return [4 /*yield*/, (0, filesPic_1.checkFileExists)(assetResourceName)];
+            case 3:
+                assetExists = _a.sent();
+                if (assetExists) {
+                    (0, filesPic_1.insistDirectoryExists)(thumbnailDirectory);
+                    (0, filesPic_1.resizeFile)(assetResourceName, parseInt(width), parseInt(height), thumbnailResourceName).then(function (outputFileName) {
+                        console.log('file returned: ' + outputFileName);
+                        res.status(200).sendFile(outputFileName);
+                    });
+                }
+                else {
+                    res.status(404).send('Cannot find the page.');
+                }
+                _a.label = 4;
+            case 4: return [2 /*return*/];
+        }
     });
 }); });
-app.use('/image', logger_1.default, index_1.default);
-app.listen(port, function () {
-    console.log('Server started at http://localhost:3000/image?f=');
-});
-exports.default = app;
+exports.default = routes;

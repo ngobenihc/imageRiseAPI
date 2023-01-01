@@ -39,20 +39,66 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
-var index_1 = __importDefault(require("./routes/index"));
-var logger_1 = __importDefault(require("./middleware/logger"));
-var path_1 = __importDefault(require("path"));
-var app = (0, express_1.default)();
-var port = 3000;
-app.get('/', logger_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+exports.resizeFile = exports.insistDirectoryExists = exports.checkFileExists = void 0;
+var fs_1 = require("fs");
+var sharp_1 = __importDefault(require("sharp"));
+var checkFileExists = function (fileResourceName) { return __awaiter(void 0, void 0, void 0, function () {
+    var fileVar, err_1;
     return __generator(this, function (_a) {
-        res.sendFile(path_1.default.join(__dirname, '../public/index.html'));
-        return [2 /*return*/];
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, fs_1.promises.open(fileResourceName, 'r')];
+            case 1:
+                fileVar = _a.sent();
+                fileVar.close();
+                return [2 /*return*/, true];
+            case 2:
+                err_1 = _a.sent();
+                return [2 /*return*/, false];
+            case 3: return [2 /*return*/];
+        }
     });
-}); });
-app.use('/image', logger_1.default, index_1.default);
-app.listen(port, function () {
-    console.log('Server started at http://localhost:3000/image?f=');
-});
-exports.default = app;
+}); };
+exports.checkFileExists = checkFileExists;
+var insistDirectoryExists = function (directoryResourceName) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 2, , 4]);
+                return [4 /*yield*/, fs_1.promises.readdir(directoryResourceName)];
+            case 1:
+                _b.sent();
+                return [3 /*break*/, 4];
+            case 2:
+                _a = _b.sent();
+                return [4 /*yield*/, fs_1.promises.mkdir(directoryResourceName)];
+            case 3:
+                _b.sent();
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/, Promise.resolve()];
+        }
+    });
+}); };
+exports.insistDirectoryExists = insistDirectoryExists;
+var resizeFile = function (inputFileName, width, height, outputFileName) { return __awaiter(void 0, void 0, void 0, function () {
+    var outputFileExists;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, checkFileExists(outputFileName)];
+            case 1:
+                outputFileExists = _a.sent();
+                if (!!outputFileExists) return [3 /*break*/, 3];
+                console.log('Output file');
+                return [4 /*yield*/, (0, sharp_1.default)(inputFileName).resize(width, height).toFile(outputFileName)];
+            case 2:
+                _a.sent();
+                return [2 /*return*/, outputFileName];
+            case 3:
+                console.log('file already exists');
+                return [2 /*return*/, outputFileName];
+        }
+    });
+}); };
+exports.resizeFile = resizeFile;

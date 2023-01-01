@@ -1,5 +1,4 @@
 "use strict";
-//this is the main API route
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -40,16 +39,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// Express server module
 var express_1 = __importDefault(require("express"));
-// Path module
 var path_1 = __importDefault(require("path"));
-// Image file utilities module
-var imageFile_1 = require("../utilities/imageFile");
-// create the Router object
+var imageFile_1 = require("../middleware/imageFile");
 var routes = express_1.default.Router();
-// define the image resize route
-// e.g. http://localhost:3000/image?f=imageName&x=jpeg&w=100&h=100
 routes.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var filename, extension, width, height, w, h, extensionLowercase, assetResourceName, thumbnailDirectory, thumbnailResourceName, assetExists;
     return __generator(this, function (_a) {
@@ -64,13 +57,13 @@ routes.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, f
                     width === undefined ||
                     height === undefined)) return [3 /*break*/, 1];
                 // invalid request query parameters
-                res.status(400).send('enter one of the following 1. encenadaport&x=jpeg&w=100&h=100, 2 fjordt&x=jpeg&w=100&h=100, 3 icelandwaterfall&x=jpeg&w=100&h=100, 4 palmtunnel&x=jpeg&w=100&h=100, 5 santamonica&x=jpeg&w=100&h=100');
+                res.status(400).send('enter one of the following 1. encenadaport&x=jpeg&w=100&h=100, 2 fjordt&x=jpeg&w=100&h=100, 3 icelandwaterfall&x=jpeg&w=100&h=100, 4 palmtunnel&x=jpeg&w=100&h=100, 5 santamonica&x=jpeg&w=100&h=100, 6 ana&x=jpeg&w=100&h=100');
                 return [3 /*break*/, 4];
             case 1:
                 w = parseInt(width);
                 h = parseInt(height);
                 if (!(isNaN(w) || isNaN(h))) return [3 /*break*/, 2];
-                res.status(400).send('Invalid request query parameters');
+                res.status(400).send('Invalid input');
                 return [3 /*break*/, 4];
             case 2:
                 extensionLowercase = extension.toLowerCase();
@@ -91,22 +84,18 @@ routes.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, f
             case 3:
                 assetExists = _a.sent();
                 if (assetExists) {
-                    // check if thumbnail directory exists; create if it doesn't
                     (0, imageFile_1.insistDirectoryExists)(thumbnailDirectory);
-                    // resize asset image to specified dimensions and save as thumbnail
                     (0, imageFile_1.resizeFile)(assetResourceName, parseInt(width), parseInt(height), thumbnailResourceName).then(function (outputFileName) {
                         console.log('file returned: ' + outputFileName);
                         res.status(200).sendFile(outputFileName);
                     });
                 }
                 else {
-                    // unknown filename resource
-                    res.status(404).send('Cannot find the requested resource');
+                    res.status(404).send('Cannot find the page.');
                 }
                 _a.label = 4;
             case 4: return [2 /*return*/];
         }
     });
 }); });
-// export the routes object
 exports.default = routes;
